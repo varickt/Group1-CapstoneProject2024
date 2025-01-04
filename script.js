@@ -1,116 +1,36 @@
-const BASE_URL = "http://localhost:5000"; // Replace with your backend URL
+// Rotating Car Images and Reviews
+const carImages = [
+  "Images/car1.png",
+  "Images/car2.png",
+  "Images/car3.png",
+  "Images/car4.png",
+];
 
-document.getElementById("login-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const username = document.getElementById("login-username").value;
-  const password = document.getElementById("login-password").value;
+const reviews = [
+  { text: '"Car Judge is a fantastic platform to share opinions on cars!"', author: "— Alex M., Car Enthusiast" },
+  { text: '"Absolutely love the detailed reviews I find here!"', author: "— Jamie L., Auto Dealer" },
+  { text: '"Car Judge helps me decide which car to buy next."', author: "— Taylor R., First-Time Buyer" },
+  { text: '"The car images and reviews make this site a joy to use."', author: "— Sam K., Photographer" },
+  { text: '"I recommend Car Judge to all my friends."', author: "— Riley T., Gearhead" }
+];
 
-  try {
-    const res = await axios.post(`${BASE_URL}/auth/login`, { username, password });
-    alert("Login successful!");
-    localStorage.setItem("token", res.data.token); // Save token for authenticated requests
-  } catch (err) {
-    alert("Login failed: " + err.response.data.message);
-  }
-});
+let currentIndex = 0;
 
-document.getElementById("signup-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const username = document.getElementById("signup-username").value;
-  const email = document.getElementById("signup-email").value;
-  const password = document.getElementById("signup-password").value;
+function rotateContent() {
+  const carImage = document.getElementById("car-image");
+  const reviewText = document.getElementById("review-text");
+  const reviewAuthor = document.getElementById("review-author");
 
-  try {
-    await axios.post(`${BASE_URL}/auth/signup`, { username, email, password });
-    alert("Sign up successful!");
-  } catch (err) {
-    alert("Sign up failed: " + err.response.data.message);
-  }
-});
+  // Update car image
+  carImage.src = carImages[currentIndex];
 
-async function fetchCars() {
-    try {
-      const res = await axios.get(`${BASE_URL}/cars`);
-      const cars = res.data;
-  
-      const carsContainer = document.getElementById("cars-container");
-      carsContainer.innerHTML = ""; // Clear previous content
-  
-      cars.forEach((car) => {
-        const carCard = document.createElement("div");
-        carCard.className = "car-card";
-        carCard.innerHTML = `
-          <h3>${car.make} ${car.model} (${car.year})</h3>
-          <button onclick="viewReviews('${car._id}')">View Reviews</button>
-          <button onclick="addReview('${car._id}')">Add Review</button>
-        `;
-        carsContainer.appendChild(carCard);
-      });
-    } catch (err) {
-      console.error("Error fetching cars:", err.message);
-    }
-  }
-  
-  fetchCars(); // Call this function on page load
+  // Update review text
+  reviewText.textContent = reviews[currentIndex].text;
+  reviewAuthor.textContent = reviews[currentIndex].author;
 
-  async function addReview(carId) {
-    const review = prompt("Enter your review:");
-    const token = localStorage.getItem("token");
-  
-    try {
-      await axios.post(
-        `${BASE_URL}/cars/${carId}/review`,
-        { review, username: "YourUsername" }, // Replace with logged-in user info
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      alert("Review added!");
-      fetchCars(); // Refresh cars
-    } catch (err) {
-      console.error("Error adding review:", err.message);
-    }
-  }
-  
-  async function viewReviews(carId) {
-    try {
-      const res = await axios.get(`${BASE_URL}/cars/${carId}`);
-      const car = res.data;
-  
-      const reviewsContainer = document.getElementById("reviews-container");
-      reviewsContainer.innerHTML = ""; // Clear previous reviews
-  
-      car.reviews.forEach((review) => {
-        const reviewCard = document.createElement("div");
-        reviewCard.className = "review-card";
-        reviewCard.innerHTML = `
-          <p><strong>${review.username}</strong>: ${review.review}</p>
-          <button onclick="addComment('${carId}', '${review._id}')">Add Comment</button>
-        `;
-  
-        review.comments.forEach((comment) => {
-          reviewCard.innerHTML += `<p><em>${comment.username}</em>: ${comment.comment}</p>`;
-        });
-  
-        reviewsContainer.appendChild(reviewCard);
-      });
-    } catch (err) {
-      console.error("Error fetching reviews:", err.message);
-    }
-  }
-  
-  async function addComment(carId, reviewId) {
-    const comment = prompt("Enter your comment:");
-    const token = localStorage.getItem("token");
-  
-    try {
-      await axios.post(
-        `${BASE_URL}/cars/${carId}/review/${reviewId}/comment`,
-        { comment, username: "YourUsername" }, // Replace with logged-in user info
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      alert("Comment added!");
-      viewReviews(carId); // Refresh reviews
-    } catch (err) {
-      console.error("Error adding comment:", err.message);
-    }
-  }
-  
+  // Increment index for next rotation
+  currentIndex = (currentIndex + 1) % carImages.length;
+}
+
+// Rotate every 5 seconds
+setInterval(rotateContent, 5000);
