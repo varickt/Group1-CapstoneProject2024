@@ -1,5 +1,5 @@
 const prisma = require('../prisma/prismaClient');
-const verifyToken = require('./controllers/verifyToken');  // Import the middleware
+const verifyToken = require('../controllers/verifyToken');  // Import the middleware
 
 // Function to add a review with user authentication
 const addReview = async (req, res) => {

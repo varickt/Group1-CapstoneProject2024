@@ -1,6 +1,6 @@
 const express = require("express");
 const { addReview, getCarReviews, deleteReview } = require("../controllers/reviewController");
-const verifyToken = require("./controllers/verifyToken"); // Imported to verifyToken middleware
+const verifyToken = require("../controllers/verifyToken"); // Imported to verifyToken middleware
 
 const router = express.Router();
 

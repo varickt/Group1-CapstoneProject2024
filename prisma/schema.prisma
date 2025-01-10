@@ -16,10 +16,10 @@ datasource db {
 model User {
   id       Int      @id @default(autoincrement())
   username String   @unique
+  email    String   @unique // Now the field is required
   password String
   reviews  Review[]
 }
-
 model Car {
   id        Int      @id @default(autoincrement())
   name      String
