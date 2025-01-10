@@ -11,25 +11,10 @@ const carMakesAndModels = [
   { make: 'BMW', model: '3 Series' },
   { make: 'Audi', model: 'A4' },
   { make: 'Mercedes-Benz', model: 'C-Class' },
-  { make: 'Nissan', model: 'Altima' },
-  { make: 'Hyundai', model: 'Elantra' },
-  { make: 'Kia', model: 'Optima' },
-  { make: 'Volkswagen', model: 'Jetta' },
-  { make: 'Mazda', model: 'CX-5' },
-  { make: 'Subaru', model: 'Outback' },
-  { make: 'Chrysler', model: 'Pacifica' },
-  { make: 'Ram', model: '1500' },
-  { make: 'Jeep', model: 'Wrangler' },
-  { make: 'Dodge', model: 'Charger' },
-  { make: 'Buick', model: 'Enclave' },
-  { make: 'GMC', model: 'Sierra' },
-  { make: 'Tesla', model: 'Model S' },
   { make: 'Porsche', model: '911' },
   { make: 'Land Rover', model: 'Range Rover' },
-  { make: 'Lexus', model: 'RX' },
-  { make: 'Toyota', model: 'RAV4' },
-  { make: 'Chevrolet', model: 'Tahoe' }
-];
+  { make: 'Volkswagen', model: 'Jetta' },
+  ];
 
 async function main() {
   console.log("Seeding database with cars and users...");
@@ -56,7 +41,7 @@ async function main() {
         brand: randomCar.make,
         year: faker.date.past(30).getFullYear(), // Random year within the last 30 years
         price: parseFloat(faker.commerce.price(5000, 100000, 2)), // Random price between $5,000 and $100,000
-        imageURL: "https://loremflickr.com/640/480/car", // Or use any image URL service you prefer
+        imageURL: "https://loremflickr.com/640/480/car", // will change to predetermined images
       },
     });
   }
