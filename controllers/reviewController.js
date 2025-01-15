@@ -28,12 +28,19 @@ const getCarReviews = async (req, res) => {
   const { carId } = req.params;
 
   try {
-    const reviews = await prisma.review.findMany({
-      where: { carId: parseInt(carId) },
+    // Fetch car details with its reviews
+    const car = await prisma.car.findUnique({
+      where: { id: parseInt(carId) },
+      include: { reviews: true }, // Include reviews along with the car details
     });
-    res.status(200).json(reviews);
+
+    if (!car) {
+      return res.status(404).json({ error: "Car not found" });
+    }
+
+    res.status(200).json(car); // Return the car with its reviews
   } catch (error) {
-    res.status(500).json({ error: "Failed to get reviews" });
+    res.status(500).json({ error: "Failed to get car details" });
   }
 };
 
