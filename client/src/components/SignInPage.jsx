@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 const SignInPage = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -10,10 +11,10 @@ const SignInPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     setLoading(true);
     setError("");
-
+  
     try {
       const response = await fetch("http://localhost:3000/users/login", {
         method: "POST",
@@ -26,27 +27,26 @@ const SignInPage = () => {
           password: password,
         }),
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         setError(errorData.error || "Login failed");
         setLoading(false);
         return;
       }
-
+  
       const data = await response.json();
-
-      // Save the token to localStorage (or you can use other methods like context, Redux, etc.)
+  
+      // Save the token to localStorage
       localStorage.setItem("token", data.token);
-
-      // Redirect to the logged-in page (Home or User Dashboard)
-      navigate("/");  // Assuming "/" is the route for the logged-in page (Loggedinpage)
+  
+      // Redirect to the dashboard (Loggedinpage)
+      navigate("/dashboard");  // Navigate to /dashboard after successful login
     } catch (error) {
       setError("An error occurred. Please try again.");
       setLoading(false);
     }
   };
-
   return (
     <div>
       <h1>Sign In</h1>
