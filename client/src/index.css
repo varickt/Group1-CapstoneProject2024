@@ -66,3 +66,40 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.homepage {
+  text-align: center;
+  padding: 20px;
+}
+
+.cars-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.car-card {
+  width: 200px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.car-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.car-card h3 {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+.car-card p {
+  font-size: 1rem;
+  margin-top: 5px;
+}

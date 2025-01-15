@@ -1,14 +1,18 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-const serverPort = process.env.PORT || 3000;
-console.log(`api need to be running on port ${serverPort}`);
-// https://vite.dev/config/
+const serverPort = 3000; // Directly specify the backend port
+console.log(`API needs to be running on port ${serverPort}`);
+
 export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/": `http://localhost:${serverPort}`,
+      "/cars": {
+        target: `http://localhost:${serverPort}`, // Backend URL
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 });
