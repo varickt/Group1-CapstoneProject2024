@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 const SignInPage = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -11,10 +10,10 @@ const SignInPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     setLoading(true);
     setError("");
-  
+
     try {
       const response = await fetch("http://localhost:3000/users/login", {
         method: "POST",
@@ -22,31 +21,32 @@ const SignInPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: emailOrUsername,  // Pass email if using email, otherwise pass username
+          email: emailOrUsername, // Pass email if using email, otherwise pass username
           username: emailOrUsername, // In case user enters username
           password: password,
         }),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         setError(errorData.error || "Login failed");
         setLoading(false);
         return;
       }
-  
+
       const data = await response.json();
-  
+
       // Save the token to localStorage
       localStorage.setItem("token", data.token);
-  
+
       // Redirect to the dashboard (Loggedinpage)
-      navigate("/dashboard");  // Navigate to /dashboard after successful login
+      navigate("/dashboard"); // Navigate to /dashboard after successful login
     } catch (error) {
       setError("An error occurred. Please try again.");
       setLoading(false);
     }
   };
+
   return (
     <div>
       <h1>Sign In</h1>
@@ -78,6 +78,21 @@ const SignInPage = () => {
           </button>
         </div>
       </form>
+      <div style={{ marginTop: "10px" }}>
+        <p>
+          Forgot your password?{" "}
+          <span
+            style={{
+              color: "blue",
+              cursor: "pointer",
+              textDecoration: "underline",
+            }}
+            onClick={() => navigate("/forgot-password")}
+          >
+            Click here
+          </span>
+        </p>
+      </div>
     </div>
   );
 };

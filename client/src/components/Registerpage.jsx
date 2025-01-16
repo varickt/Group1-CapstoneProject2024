@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; // Import axios
-import "./RegisterPage.css"; 
+import "./RegisterPage.css";
 
 const Registerpage = () => {
   const [formData, setFormData] = useState({
@@ -28,11 +28,14 @@ const Registerpage = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/users/register", {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-      });
+      const response = await axios.post(
+        "http://localhost:3000/users/register",
+        {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        }
+      );
 
       if (response.status === 201) {
         // Redirect to login page on successful registration
@@ -50,7 +53,8 @@ const Registerpage = () => {
   return (
     <div className="register-page">
       <h2>Register</h2>
-      {error && <p className="error-message">{error}</p>} {/* Display error message */}
+      {error && <p className="error-message">{error}</p>}{" "}
+      {/* Display error message */}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
