@@ -2,8 +2,9 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Navbar from "./Navbar"; // Shared Navbar component
+import Navbar from "./Navbar";
 import Logo from "/images/Logo2.png";
+import "./homepage.css";
 
 const Homepage = () => {
   const carImages = [
@@ -21,12 +22,12 @@ const Homepage = () => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
-    arrows: false,
+    arrows: true,
   };
 
   return (
-    <div>
-      {/* Single Navbar */}
+    <div className="homepage">
+      {/* Navbar */}
       <Navbar />
 
       {/* Main Content */}
@@ -37,6 +38,7 @@ const Homepage = () => {
           <div className="auth-box">
             <h1>Welcome to Car Judge</h1>
             <p>Your go-to destination for honest car reviews and ratings.</p>
+            <p className="tagline">Reliable reviews. Expert opinions. Find your dream car.</p>
             <div className="cta-buttons">
               <button
                 className="btn primary"

@@ -1,0 +1,48 @@
+.homepage-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem auto;
+    max-width: 1200px;
+    padding: 1rem;
+  }
+  
+  .left-column,
+  .right-column {
+    width: 50%;
+    padding: 1rem;
+  }
+  
+  .large-logo {
+    display: block;
+    margin: 0 auto 20px;
+    height: 220px;
+    max-width: 100%;
+    object-fit: contain;
+  }
+  
+  .auth-box {
+    text-align: center;
+    padding: 2rem;
+    background-color: #222;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .auth-box h1 {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+  }
+  
+  .auth-box p {
+    color: #bbb;
+    margin-bottom: 2rem;
+  }
+  
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
