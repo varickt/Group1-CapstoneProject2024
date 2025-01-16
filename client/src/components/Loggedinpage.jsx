@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar"; // Assuming you have a Navbar component
+import Logo from "/images/logo4.png"; // Adjust path as needed
+import "./loggedinpage.css";
 
 const Loggedinpage = () => {
   const [cars, setCars] = useState([]); // Car data including reviews
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userToken, setUserToken] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-  const [selectedCarId, setSelectedCarId] = useState(null);
 
   // Fetch cars data along with reviews
   useEffect(() => {
@@ -29,35 +30,59 @@ const Loggedinpage = () => {
     fetchCars();
   }, []);
 
-  // Check if the user is logged in
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-      setUserToken(token); // Store the token for use in review submission
-    }
-  }, []);
-
   const handleCarClick = (carId) => {
     navigate(`/car-details/${carId}`);
-    // setSelectedCarId(carId);
   };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value.toLowerCase());
+  };
+
+  const filteredCars = cars.filter((car) =>
+    `${car.brand} ${car.name}`.toLowerCase().includes(searchQuery)
+  );
 
   if (loading) return <p>Loading cars...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
-      <h1>All Cars</h1>
-      <div className="cars-list">
-        {cars.length > 0 ? (
-          cars.map((car) => (
+    <div className="loggedinpage">
+      <Navbar />
+
+      <div className="welcome-section">
+        <img src={Logo} alt="Car Judge Logo" className="welcome-logo" />
+        <h1>Welcome to Car Judge!</h1>
+        <p>
+          We’re thrilled to have you join the Car Judge community, where honest
+          opinions meet expert verdicts! Explore unbiased reviews, compare top
+          contenders, and get expert insights that help you judge every car
+          with confidence.
+        </p>
+      </div>
+
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search for cars..."
+          className="search-box"
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+      </div>
+
+      <div className="cars-container">
+        {filteredCars.length > 0 ? (
+          filteredCars.map((car) => (
             <div
               key={car.id}
               className="car-card"
               onClick={() => handleCarClick(car.id)}
             >
-              <img src={car.imageURL} alt={`${car.brand} ${car.name}`} />
+              <img
+                src={car.imageURL}
+                alt={`${car.brand} ${car.name}`}
+                className="car-image"
+              />
               <h3>
                 {car.brand} {car.name}
               </h3>
@@ -66,7 +91,7 @@ const Loggedinpage = () => {
             </div>
           ))
         ) : (
-          <p>No cars available.</p>
+          <p>No cars found.</p>
         )}
       </div>
     </div>
