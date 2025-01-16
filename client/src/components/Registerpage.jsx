@@ -1,9 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Import axios
+import axios from "axios";
+import Navbar from "./Navbar"; // Import Navbar
+import Logo from "/images/Logo.png"; // Adjust path if needed
 import "./RegisterPage.css";
 
-const Registerpage = () => {
+const RegisterPage = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -11,7 +13,7 @@ const Registerpage = () => {
     confirmPassword: "",
   });
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // Hook to navigate the user
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -38,12 +40,11 @@ const Registerpage = () => {
       );
 
       if (response.status === 201) {
-        // Redirect to login page on successful registration
         navigate("/sign-in");
       }
     } catch (error) {
       if (error.response && error.response.data.error) {
-        setError(error.response.data.error); // Display API error message
+        setError(error.response.data.error);
       } else {
         setError("Registration failed. Please try again later.");
       }
@@ -52,46 +53,73 @@ const Registerpage = () => {
 
   return (
     <div className="register-page">
-      <h2>Register</h2>
-      {error && <p className="error-message">{error}</p>}{" "}
-      {/* Display error message */}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleInputChange}
-          placeholder="Username"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleInputChange}
-          placeholder="Password"
-          required
-        />
-        <input
-          type="password"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleInputChange}
-          placeholder="Confirm Password"
-          required
-        />
-        <button type="submit">Register</button>
-      </form>
+      {/* Navbar at the top */}
+      <Navbar />
+
+      <div className="register-container">
+        <div className="register-box">
+          <div className="register-inner-box">
+            <img src={Logo} alt="App Logo" className="register-logo" />
+            <h2 className="register-title">Register</h2>
+            {error && <p className="error-message">{error}</p>}
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="username">Username</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleInputChange}
+                  placeholder="Enter your desired Username"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Enter your Email"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  placeholder="Enter your desired Password"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  placeholder="Confirm Password"
+                  required
+                />
+              </div>
+              <button type="submit" className="register-btn">
+                Register
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Registerpage;
+export default RegisterPage;

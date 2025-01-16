@@ -1,4 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import Navbar from "./Navbar"; // Import Navbar component
+import Logo from "/images/Logo.png"; // Adjust path if needed
+import "./ForgotPasswordPage.css";
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
@@ -38,26 +41,39 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div>
-      <h1>Forgot Password</h1>
-      <form onSubmit={handleForgotPassword}>
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            required
-          />
+    <div className="forgot-password-page">
+      {/* Navbar at the top */}
+      <Navbar />
+
+      <div className="forgot-password-container">
+        <div className="forgot-password-box">
+          <div className="forgot-password-inner-box">
+            <img src={Logo} alt="App Logo" className="forgot-password-logo" />
+            <h2 className="forgot-password-title">Forgot Password</h2>
+            {message && <p className="message">{message}</p>}
+            <form onSubmit={handleForgotPassword}>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="forgot-password-btn"
+                disabled={loading}
+              >
+                {loading ? "Sending..." : "Send Reset Link"}
+              </button>
+            </form>
+          </div>
         </div>
-        <div>
-          <button type="submit" disabled={loading}>
-            {loading ? "Sending..." : "Send Reset Link"}
-          </button>
-        </div>
-      </form>
-      {message && <p>{message}</p>}
+      </div>
     </div>
   );
 };

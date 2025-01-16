@@ -16,7 +16,7 @@ datasource db {
 model User {
   id       Int      @id @default(autoincrement())
   username String   @unique
-  email    String   @unique // Now the field is required
+  email    String   @unique
   password String
   reviews  Review[]
 }

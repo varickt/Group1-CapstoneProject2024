@@ -1,5 +1,5 @@
-/* Container for Register Page */
-.register-container {
+/* Container for Sign In Page */
+.signin-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,8 +8,8 @@
   padding: 1rem;
 }
 
-/* Register Box (Black Box) */
-.register-box {
+/* Sign In Box (Black Box) */
+.signin-box {
   background-color: #222; /* Black box */
   padding: 4rem 3rem; /* Adjust padding for the outer black box */
   border-radius: 12px; /* Rounded corners for a modern look */
@@ -22,7 +22,7 @@
 }
 
 /* Inner White Box */
-.register-inner-box {
+.signin-inner-box {
   background-color: #ffffff; /* White box */
   padding: 2rem; /* Inner padding for content spacing */
   border-radius: 8px; /* Rounded corners for white box */
@@ -33,7 +33,7 @@
 }
 
 /* Logo above the form */
-.register-logo {
+.signin-logo {
   display: block;
   margin: 0 auto 1.5rem; /* Space below the logo */
   width: 200px; /* Adjust the logo size */
@@ -41,15 +41,16 @@
   object-fit: contain;
 }
 
-.register-logo {
+.signin-logo {
   width: 300px; /* Increased width */
   height: auto; /* Maintain aspect ratio */
   display: block;
   margin: 0 auto 20px; /* Center and add spacing below */
 }
 
+
 /* Title */
-.register-title {
+.signin-title {
   font-size: 2rem;
   color: #ffffff; /* Title remains white */
   margin-bottom: 2rem;
@@ -78,8 +79,8 @@
   box-sizing: border-box;
 }
 
-/* Register Button */
-.register-btn {
+/* Sign In Button */
+.signin-btn {
   background-color: #007bff;
   color: #ffffff;
   padding: 0.8rem 1.5rem;
@@ -91,24 +92,24 @@
   transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
-.register-btn:hover {
+.signin-btn:hover {
   transform: translateY(-2px);
   filter: brightness(1.1);
 }
 
-/* Already Have an Account Link */
-.already-account {
+/* Forgot Password Link */
+.forgot-password {
   margin-top: 1rem;
   color: #bbb;
 }
 
-.already-account span {
+.forgot-password span {
   color: #007bff;
   cursor: pointer;
   text-decoration: underline;
   transition: color 0.3s ease;
 }
 
-.already-account span:hover {
+.forgot-password span:hover {
   color: #0056b3; /* Slightly darker blue on hover */
 }
