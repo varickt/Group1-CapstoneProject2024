@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import "./carDetails.css";
 
 const CarDetails = () => {
-  const [reviewsState, setReviewsState] = useState({}); // Store reviews for each car
+  const [reviewsState, setReviewsState] = useState({});
   const [loading, setLoading] = useState(true);
-  const [cars, setCars] = useState([]); // Car data including reviews
   const [error, setError] = useState(null);
   const { carId } = useParams();
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [car, setCar] = useState([]); // Initialize state to null
-  const [selectedCarId, setSelectedCarId] = useState(null);
+  const [car, setCar] = useState(null);
+  const navigate = useNavigate();
+
   // Handle review content change
   const handleReviewContentChange = (e, carId) => {
     setReviewsState((prevState) => ({
@@ -27,15 +28,15 @@ const CarDetails = () => {
       ...prevState,
       [carId]: {
         ...prevState[carId],
-        rating: Number(e.target.value), // Ensure rating is a number
+        rating: Number(e.target.value),
       },
     }));
   };
 
+  // Submit a review
   const handleReviewSubmit = async (e, carId) => {
     e.preventDefault();
     const userToken = localStorage.getItem("token");
-
     const { content, rating } = reviewsState[carId];
 
     if (!content || !rating) {
@@ -50,38 +51,25 @@ const CarDetails = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${userToken}`,
         },
-        body: JSON.stringify({
-          carId,
-          content,
-          rating,
-        }),
+        body: JSON.stringify({ carId, content, rating }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to submit review");
-      }
+      if (!response.ok) throw new Error("Failed to submit review");
 
-      const updatedReview = await response.json(); // Newly added review from API
+      const updatedReview = await response.json();
 
-      // Update the specific car's reviews in the state
-      setCars((prevCars) =>
-        prevCars.map((car) =>
-          car.id === carId
-            ? {
-                ...car,
-                reviews: [...car.reviews, updatedReview], // Add new review to existing reviews
-              }
-            : car
-        )
-      );
+      // Update car reviews state
+      setCar((prevCar) => ({
+        ...prevCar,
+        reviews: [...prevCar.reviews, updatedReview],
+      }));
 
-      // Reset the review form
       setReviewsState((prevState) => ({
         ...prevState,
         [carId]: { content: "", rating: 1 },
       }));
 
-      setError(null); // Reset error state if the submission is successful
+      setError(null);
     } catch (err) {
       setError(err.message);
     }
@@ -91,9 +79,8 @@ const CarDetails = () => {
     const fetchCar = async () => {
       try {
         const response = await fetch(`http://localhost:3000/cars/${carId}`);
-        if (!response.ok) throw new Error("Failed to fetch car");
+        if (!response.ok) throw new Error("Failed to fetch car details");
         const data = await response.json();
-
         setCar(data);
       } catch (err) {
         setError(err.message);
@@ -105,29 +92,42 @@ const CarDetails = () => {
     fetchCar();
   }, [carId]);
 
-  const handleReviewClick = (e) => {
-    // Stop the click event from propagating to the car card
-    e.stopPropagation();
-  };
-
-  if (loading) return <p>Loading cars...</p>;
+  if (loading) return <p>Loading car details...</p>;
   if (error) return <p>{error}</p>;
+
   return (
-    <div>
-      <h1>Car Details</h1>
-      {/* Review Section - Show only if the user is logged in */}
-      {isLoggedIn && car && (
-        <div onClick={handleReviewClick}>
+    <div className="car-details-page">
+      {/* Navbar */}
+      <nav className="navbar">
+        <h2 onClick={() => navigate("/loggedinpage")} className="nav-home">
+          Home
+        </h2>
+      </nav>
+
+      <div className="car-header">
+        <h1>{car.name}</h1>
+        <p>{car.description}</p>
+      </div>
+
+      <div className="car-image">
+        <img src={car.image} alt={car.name} />
+      </div>
+
+      {/* Reviews Section */}
+      {isLoggedIn && (
+        <div className="review-section">
+          <h2>Write a Review</h2>
           <textarea
-            value={reviewsState[car.carId]?.content || ""}
-            onChange={(e) => handleReviewContentChange(e, car.carId)}
-            placeholder="Write a review..."
+            className="review-textarea"
+            value={reviewsState[carId]?.content || ""}
+            onChange={(e) => handleReviewContentChange(e, carId)}
+            placeholder="Write your review here..."
           />
-          <div>
+          <div className="rating-select">
             <label>Rating:</label>
             <select
-              value={reviewsState[car.carId]?.rating || 1}
-              onChange={(e) => handleRatingChange(e, car.carId)}
+              value={reviewsState[carId]?.rating || 1}
+              onChange={(e) => handleRatingChange(e, carId)}
             >
               {[1, 2, 3, 4, 5].map((rate) => (
                 <option key={rate} value={rate}>
@@ -136,26 +136,28 @@ const CarDetails = () => {
               ))}
             </select>
           </div>
-          <button onClick={(e) => handleReviewSubmit(e, car.carId)}>
+          <button className="submit-review-btn" onClick={(e) => handleReviewSubmit(e, carId)}>
             Submit Review
           </button>
+          {error && <p className="error-message">{error}</p>}
         </div>
       )}
-      {/* Display Reviews */}
+
       <div className="reviews">
-        <h4>Reviews:</h4>
+        <h2>Reviews</h2>
         {Array.isArray(car.reviews) && car.reviews.length > 0 ? (
           car.reviews.map((review, index) => (
-            <div key={index}>
+            <div key={index} className="review">
               <p>{review.content}</p>
               <p>Rating: {review.rating}</p>
             </div>
           ))
         ) : (
-          <p>No reviews yet.</p>
+          <p>No reviews yet. Be the first to write one!</p>
         )}
       </div>
     </div>
   );
 };
+
 export default CarDetails;
