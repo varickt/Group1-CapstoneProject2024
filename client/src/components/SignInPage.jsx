@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar"; // Import Navbar component
-import Logo from "/images/Logo.png"; // Adjust path if needed
+import Logo from "../images/Logo.png"; // Adjust path if needed
 import "./SignInPage.css";
 
-const SignInPage = () => {
+const SignInPage = ({ setToken }) => {
   const [formData, setFormData] = useState({ identifier: "", password: "" }); // Updated "email" to "identifier"
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -21,6 +21,9 @@ const SignInPage = () => {
       return;
     }
     try {
+      // Simulate API call to authenticate user and receive token
+      const authToken = "sampleToken"; // Replace with actual token received from API
+      setToken(authToken); // Set the token using the setToken prop
       console.log("Sign-in successful:", formData);
       navigate("/dashboard");
     } catch (err) {

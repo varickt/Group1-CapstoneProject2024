@@ -12,17 +12,16 @@ const App = () => {
   const [token, setToken] = useState(() => {
     return localStorage.getItem("authToken") || "";
   });
-  useEffect(
-    () => {
-      if (token) {
-        localStorage.setItem("authToken", token);
-      } else {
-        localStorage.removeItem("authToken");
-      }
-    },
-    { token }
-  );
-  console.log(isLoggedIn);
+
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("authToken", token);
+    } else {
+      localStorage.removeItem("authToken");
+    }
+  }, [token]); // Corrected to an array
+
+  const isLoggedIn = !!token; // Define isLoggedIn
 
   return (
     <Routes>

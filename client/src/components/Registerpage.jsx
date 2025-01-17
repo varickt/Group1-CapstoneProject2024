@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./Navbar"; // Import Navbar
-import Logo from "/images/Logo.png"; // Adjust path if needed
+import Logo from "../images/Logo.png"; // Adjust path if needed
 import "./RegisterPage.css";
 
-const RegisterPage = () => {
+const RegisterPage = ({ setToken }) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -40,7 +40,9 @@ const RegisterPage = () => {
       );
 
       if (response.status === 201) {
-        navigate("/sign-in");
+        const authToken = response.data.token; // Assuming token is returned in the response
+        setToken(authToken); // Set the token using the setToken prop
+        navigate("/dashboard");
       }
     } catch (error) {
       if (error.response && error.response.data.error) {
