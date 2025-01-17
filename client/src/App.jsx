@@ -13,15 +13,25 @@ const App = () => {
     return localStorage.getItem("authToken") || "";
   });
 
+<<<<<<< HEAD
+=======
+  // Define `isLoggedIn` based on the `token`
+  const isLoggedIn = !!token;
+
+>>>>>>> 8de0e67f7f766c01498a9df2100cbca3fc2679e7
   useEffect(() => {
     if (token) {
       localStorage.setItem("authToken", token);
     } else {
       localStorage.removeItem("authToken");
     }
+<<<<<<< HEAD
   }, [token]); // Corrected to an array
 
   const isLoggedIn = !!token; // Define isLoggedIn
+=======
+  }, [token]);
+>>>>>>> 8de0e67f7f766c01498a9df2100cbca3fc2679e7
 
   return (
     <Routes>
@@ -42,7 +52,7 @@ const App = () => {
           isLoggedIn ? (
             <Layout>
               <Loggedinpage />
-            </Layout> // Wrap with Layout
+            </Layout>
           ) : (
             <Navigate to="/sign-in" />
           )
@@ -51,9 +61,9 @@ const App = () => {
 
       {/* Sign-in route */}
       <Route
-        path="/sign-in"
-        element={<SignInPage token={token} setToken={setToken} />}
-      />
+  path="/sign-in"
+  element={<SignInPage setToken={setToken} />}
+/>
 
       {/* Register route */}
       <Route
