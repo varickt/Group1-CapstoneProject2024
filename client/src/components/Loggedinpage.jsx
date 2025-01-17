@@ -30,8 +30,8 @@ const Loggedinpage = () => {
     fetchCars();
   }, []);
 
-  const handleCarClick = (carId) => {
-    navigate(`/car-details/${carId}`);
+  const handleCarClick = (carId, carImageURL) => {
+    navigate(`/car-details/${carId}`, { state: { imageURL: carImageURL } });
   };
 
   const handleSearchChange = (e) => {
@@ -47,7 +47,7 @@ const Loggedinpage = () => {
 
   return (
     <div className="loggedinpage">
-      <Navbar />
+      <Navbar navigate={navigate} />
 
       <div className="welcome-section">
         <img src={Logo} alt="Car Judge Logo" className="welcome-logo" />
@@ -76,7 +76,7 @@ const Loggedinpage = () => {
             <div
               key={car.id}
               className="car-card"
-              onClick={() => handleCarClick(car.id)}
+              onClick={() => handleCarClick(car.id, car.imageURL)}
             >
               <img
                 src={car.imageURL}

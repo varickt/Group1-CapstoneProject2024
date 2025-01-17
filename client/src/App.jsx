@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Loggedinpage from "./components/Loggedinpage";
 import SignInPage from "./components/SignInPage";
 import Homepage from "./components/Homepage";
-import Registerpage from "./components/Registerpage";
+import RegisterPage from "./components/RegisterPage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage"; // Import the new Forgot Password component
 import Layout from "./components/Layout";
 import CarDetails from "./components/CarDetails";
@@ -13,25 +13,15 @@ const App = () => {
     return localStorage.getItem("authToken") || "";
   });
 
-<<<<<<< HEAD
-=======
-  // Define `isLoggedIn` based on the `token`
-  const isLoggedIn = !!token;
-
->>>>>>> 8de0e67f7f766c01498a9df2100cbca3fc2679e7
   useEffect(() => {
     if (token) {
       localStorage.setItem("authToken", token);
     } else {
       localStorage.removeItem("authToken");
     }
-<<<<<<< HEAD
-  }, [token]); // Corrected to an array
+  }, [token]);
 
   const isLoggedIn = !!token; // Define isLoggedIn
-=======
-  }, [token]);
->>>>>>> 8de0e67f7f766c01498a9df2100cbca3fc2679e7
 
   return (
     <Routes>
@@ -61,14 +51,14 @@ const App = () => {
 
       {/* Sign-in route */}
       <Route
-  path="/sign-in"
-  element={<SignInPage setToken={setToken} />}
-/>
+        path="/sign-in"
+        element={<SignInPage setToken={setToken} />}
+      />
 
       {/* Register route */}
       <Route
         path="/register"
-        element={<Registerpage token={token} setToken={setToken} />}
+        element={<RegisterPage setToken={setToken} />}
       />
 
       {/* Forgot Password route */}

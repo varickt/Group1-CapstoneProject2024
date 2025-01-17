@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "./carDetails.css";
 
 const CarDetails = () => {
@@ -7,6 +7,7 @@ const CarDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { carId } = useParams();
+  const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [car, setCar] = useState(null);
   const navigate = useNavigate();
@@ -36,8 +37,14 @@ const CarDetails = () => {
   // Submit a review
   const handleReviewSubmit = async (e, carId) => {
     e.preventDefault();
-    const userToken = localStorage.getItem("token");
-    const { content, rating } = reviewsState[carId];
+    const userToken = localStorage.getItem("authToken");
+
+    if (!userToken) {
+      setError("User is not authenticated. Please log in.");
+      return;
+    }
+
+    const { content, rating } = reviewsState[carId] || {};
 
     if (!content || !rating) {
       setError("Please provide both a review and a rating.");
@@ -45,7 +52,6 @@ const CarDetails = () => {
     }
 
     try {
-      console.log(userToken);
       const response = await fetch("http://localhost:3000/reviews", {
         method: "POST",
         headers: {
@@ -55,8 +61,7 @@ const CarDetails = () => {
         body: JSON.stringify({ carId, content, rating }),
       });
 
-      if (!response.ok)
-        throw new Error("Failed to submit review", response.status);
+      if (!response.ok) throw new Error(`Failed to submit review: ${response.statusText}`);
 
       const updatedReview = await response.json();
 
@@ -101,7 +106,7 @@ const CarDetails = () => {
     <div className="car-details-page">
       {/* Navbar */}
       <nav className="navbar">
-        <h2 onClick={() => navigate("/loggedinpage")} className="nav-home">
+        <h2 onClick={() => navigate("/dashboard")} className="nav-home">
           Home
         </h2>
       </nav>
@@ -112,7 +117,7 @@ const CarDetails = () => {
       </div>
 
       <div className="car-image">
-        <img src={car.image} alt={car.name} />
+        <img src={location.state.imageURL} alt={car.name} />
       </div>
 
       {/* Reviews Section */}
