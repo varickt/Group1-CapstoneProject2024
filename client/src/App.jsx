@@ -12,17 +12,17 @@ const App = () => {
   const [token, setToken] = useState(() => {
     return localStorage.getItem("authToken") || "";
   });
-  useEffect(
-    () => {
-      if (token) {
-        localStorage.setItem("authToken", token);
-      } else {
-        localStorage.removeItem("authToken");
-      }
-    },
-    { token }
-  );
-  console.log(isLoggedIn);
+
+  // Define `isLoggedIn` based on the `token`
+  const isLoggedIn = !!token;
+
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("authToken", token);
+    } else {
+      localStorage.removeItem("authToken");
+    }
+  }, [token]);
 
   return (
     <Routes>
@@ -43,7 +43,7 @@ const App = () => {
           isLoggedIn ? (
             <Layout>
               <Loggedinpage />
-            </Layout> // Wrap with Layout
+            </Layout>
           ) : (
             <Navigate to="/sign-in" />
           )
@@ -52,9 +52,9 @@ const App = () => {
 
       {/* Sign-in route */}
       <Route
-        path="/sign-in"
-        element={<SignInPage token={token} setToken={setToken} />}
-      />
+  path="/sign-in"
+  element={<SignInPage setToken={setToken} />}
+/>
 
       {/* Register route */}
       <Route

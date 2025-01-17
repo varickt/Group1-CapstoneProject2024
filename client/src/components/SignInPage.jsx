@@ -4,7 +4,7 @@ import Navbar from "./Navbar"; // Import Navbar component
 import Logo from "/images/Logo.png"; // Adjust path if needed
 import "./SignInPage.css";
 
-const SignInPage = () => {
+const SignInPage = ({ setToken }) => {
   const [formData, setFormData] = useState({ identifier: "", password: "" }); // Updated "email" to "identifier"
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -21,7 +21,14 @@ const SignInPage = () => {
       return;
     }
     try {
+      // Simulating sign-in logic, replace with your actual API request
       console.log("Sign-in successful:", formData);
+      
+      // Simulating a successful login response with a token
+      const fakeToken = "sample-token";  // Replace this with actual token from the server
+      setToken(fakeToken);  // Set the token in the parent component (App)
+
+      // Navigate to the dashboard after setting the token
       navigate("/dashboard");
     } catch (err) {
       setError("Invalid credentials. Please try again.");
