@@ -55,8 +55,8 @@ const Loggedinpage = () => {
         <p>
           We’re thrilled to have you join the Car Judge community, where honest
           opinions meet expert verdicts! Explore unbiased reviews, compare top
-          contenders, and get expert insights that help you judge every car
-          with confidence.
+          contenders, and get expert insights that help you judge every car with
+          confidence.
         </p>
       </div>
 

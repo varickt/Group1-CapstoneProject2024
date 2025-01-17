@@ -45,6 +45,7 @@ const CarDetails = () => {
     }
 
     try {
+      console.log(userToken);
       const response = await fetch("http://localhost:3000/reviews", {
         method: "POST",
         headers: {
@@ -54,7 +55,8 @@ const CarDetails = () => {
         body: JSON.stringify({ carId, content, rating }),
       });
 
-      if (!response.ok) throw new Error("Failed to submit review");
+      if (!response.ok)
+        throw new Error("Failed to submit review", response.status);
 
       const updatedReview = await response.json();
 
@@ -136,7 +138,10 @@ const CarDetails = () => {
               ))}
             </select>
           </div>
-          <button className="submit-review-btn" onClick={(e) => handleReviewSubmit(e, carId)}>
+          <button
+            className="submit-review-btn"
+            onClick={(e) => handleReviewSubmit(e, carId)}
+          >
             Submit Review
           </button>
           {error && <p className="error-message">{error}</p>}
