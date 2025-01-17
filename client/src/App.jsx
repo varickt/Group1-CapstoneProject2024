@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Loggedinpage from "./components/Loggedinpage";
 import SignInPage from "./components/SignInPage";
@@ -8,7 +9,20 @@ import Layout from "./components/Layout";
 import CarDetails from "./components/CarDetails";
 
 const App = () => {
-  const isLoggedIn = !!localStorage.getItem("token");
+  const [token, setToken] = useState(() => {
+    return localStorage.getItem("authToken") || "";
+  });
+  useEffect(
+    () => {
+      if (token) {
+        localStorage.setItem("authToken", token);
+      } else {
+        localStorage.removeItem("authToken");
+      }
+    },
+    { token }
+  );
+  console.log(isLoggedIn);
 
   return (
     <Routes>
@@ -37,10 +51,16 @@ const App = () => {
       />
 
       {/* Sign-in route */}
-      <Route path="/sign-in" element={<SignInPage />} />
+      <Route
+        path="/sign-in"
+        element={<SignInPage token={token} setToken={setToken} />}
+      />
 
       {/* Register route */}
-      <Route path="/register" element={<Registerpage />} />
+      <Route
+        path="/register"
+        element={<Registerpage token={token} setToken={setToken} />}
+      />
 
       {/* Forgot Password route */}
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
