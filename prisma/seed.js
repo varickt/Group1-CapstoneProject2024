@@ -2,6 +2,19 @@ const { PrismaClient } = require('@prisma/client');
 const { faker } = require('@faker-js/faker');
 const prisma = new PrismaClient();
 
+const carImages = {
+  "Toyota Corolla": "https://tse4.mm.bing.net/th?id=OIP.Bft4vJHz9arpyg55QIzrGgHaDt&pid=Api&P=0&h=220",
+  "Honda Civic": "https://tse1.mm.bing.net/th?id=OIP.eRPSPy-tYD0yz7Hi8JRiQQHaEK&pid=Api&P=0&h=220",
+  "Ford Mustang": "https://tse4.mm.bing.net/th?id=OIP.cWRhX4cOYk74_dr_p4zVtwHaE1&pid=Api&P=0&h=220",
+  "Chevrolet Camaro": "https://tse1.mm.bing.net/th?id=OIP.yTi4lfncDtcglq_kQ9aQFQHaEK&pid=Api&P=0&h=220",
+  "BMW 3 Series": "https://tse3.mm.bing.net/th?id=OIP.VLdQIb5P-RBIgEmmgmWYPQHaE8&pid=Api&P=0&h=220",
+  "Audi A4": "https://tse3.mm.bing.net/th?id=OIP.aV3NyjpjJ25Lv1Hec1wBBQHaE8&pid=Api&P=0&h=220",
+  "Mercedes-Benz C-Class": "https://tse2.mm.bing.net/th?id=OIP.OtqqxS-zK2gy3oFJ7VnRywHaE8&pid=Api&P=0&h=220",
+  "Porsche 911": "https://tse2.mm.bing.net/th?id=OIP.CKbWjwto8jXYudRkg44CkAHaEc&pid=Api&P=0&h=220",
+  "Land Rover Range Rover": "https://tse1.mm.bing.net/th?id=OIP.j8K7q670TfVZT1dwKF4tAQHaEK&pid=Api&P=0&h=220",
+  "Volkswagen Jetta": "https://tse4.mm.bing.net/th?id=OIP.iTN9QAsM0RFrBs-4E2g_GwHaE8&pid=Api&P=0&h=220",
+
+};
 // Predefined array of car makes and models
 const carMakesAndModels = [
   { make: 'Toyota', model: 'Corolla' },
@@ -35,14 +48,16 @@ async function main() {
   // Seed Cars
   for (let i = 0; i < 10; i++) {
     const randomCar = carMakesAndModels[i % carMakesAndModels.length]; // Cycle through the array
+    const carName = randomCar.model; // Model is the name
+    const carBrand = randomCar.make; // Make is the brand
 
     await prisma.car.create({
       data: {
-        name: `${randomCar.make} ${randomCar.model}`,
-        brand: randomCar.make,
+        name: carName, // Assign model as name
+        brand: carBrand, // Assign make as brand
         year: faker.date.past(30).getFullYear(), // Random year within the last 30 years
-        price: parseFloat(faker.commerce.price(5000, 100000, 2)), // Random price between $5,000 and $100,000
-        imageURL: 'https://loremflickr.com/640/480/car', // will change to predetermined images
+        price: parseFloat((Math.random() * (100000 - 5000) + 5000).toFixed(2)), // Random price between $5,000 and $100,000
+        imageURL: carImages[`${carBrand} ${carName}`] || "https://example.com/default-car.jpg", // Default image if no match
       },
     });
   }
