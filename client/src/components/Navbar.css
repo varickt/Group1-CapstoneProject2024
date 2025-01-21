@@ -1,58 +1,51 @@
-/* Navbar Styling */
 .navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #242424; /* Dark background for the navbar */
-  color: #ffffff; /* White text for visibility */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
-  box-sizing: border-box; /* Ensure padding doesn't overflow */
+  z-index: 1000;
 }
-
-/* Logo Section */
+.back-button {
+  background-color: #444;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+.back-button:hover {
+  background-color: #555;
+}
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  margin-right: auto; /* Pushes logo to the left */
+}
 .navbar-logo h2 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #ffffff; /* White for the logo text */
   margin: 0;
+  padding-left: 1rem;
 }
-
-/* Links Section */
 .navbar-links {
   list-style: none;
   display: flex;
-  gap: 1.5rem; /* Adjust gap for better spacing */
+  align-items: center;
+  gap: 0.5rem; /* Reduced gap between links */
   margin: 0;
   padding: 0;
+  margin-left: auto; /* Add margin to the left side to offset the links */
 }
-
-.navbar-links li {
-  display: inline;
-}
-
-/* Link Styling */
 .nav-link {
+  color: #fff;
   text-decoration: none;
-  color: #ffffff; /* White links */
-  font-size: 1rem;
-  font-weight: 500;
-  transition: color 0.3s ease, transform 0.2s ease;
-  padding: 0.5rem 0.75rem; /* Add padding for better click area */
+  padding: 0.5rem 0.75rem; /* Slightly reduced padding */
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
-
 .nav-link:hover {
-  color: #a8a8a8; /* Light gray on hover for subtle effect */
-  transform: translateY(-2px); /* Slight lift effect on hover */
-}
-
-/* Adjust responsiveness */
-@media (max-width: 768px) {
-  .navbar-links {
-    gap: 1rem; /* Reduce spacing between links for smaller screens */
-  }
-
-  .nav-link {
-    font-size: 0.9rem; /* Slightly smaller text on smaller screens */
-  }
+  background-color: #555;
 }

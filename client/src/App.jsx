@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Loggedinpage from "./components/Loggedinpage";
 import SignInPage from "./components/SignInPage";
 import Homepage from "./components/Homepage";
 import RegisterPage from "./components/RegisterPage";
-import ForgotPasswordPage from "./components/ForgotPasswordPage"; // Import the new Forgot Password component
+import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import Layout from "./components/Layout";
 import CarDetails from "./components/CarDetails";
+import About from "./components/About"; // Import the About component
 
 const App = () => {
   const [token, setToken] = useState(() => {
@@ -21,11 +22,10 @@ const App = () => {
     }
   }, [token]);
 
-  const isLoggedIn = !!token; // Define isLoggedIn
+  const isLoggedIn = !!token;
 
   return (
     <Routes>
-      {/* Use Layout for pages with Navbar */}
       <Route
         path="/"
         element={
@@ -34,8 +34,6 @@ const App = () => {
           </Layout>
         }
       />
-
-      {/* Dashboard route (protected) */}
       <Route
         path="/dashboard"
         element={
@@ -48,26 +46,14 @@ const App = () => {
           )
         }
       />
-
-      {/* Sign-in route */}
-      <Route
-        path="/sign-in"
-        element={<SignInPage setToken={setToken} />}
-      />
-
-      {/* Register route */}
-      <Route
-        path="/register"
-        element={<RegisterPage setToken={setToken} />}
-      />
-
-      {/* Forgot Password route */}
+      <Route path="/sign-in" element={<SignInPage setToken={setToken} />} />
+      <Route path="/register" element={<RegisterPage setToken={setToken} />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-
-      {/* Car Details route */}
-      <Route path="/car-details/:carId" element={<CarDetails />} />
-
-      {/* Redirect all unknown routes to the homepage */}
+      <Route
+        path="/car-details/:carId"
+        element={<CarDetails token={token} />}
+      />
+      <Route path="/about" element={<About />} /> {/* Add the About route */}
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

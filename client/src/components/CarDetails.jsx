@@ -61,7 +61,8 @@ const CarDetails = () => {
         body: JSON.stringify({ carId, content, rating }),
       });
 
-      if (!response.ok) throw new Error(`Failed to submit review: ${response.statusText}`);
+      if (!response.ok)
+        throw new Error(`Failed to submit review: ${response.statusText}`);
 
       const updatedReview = await response.json();
 
