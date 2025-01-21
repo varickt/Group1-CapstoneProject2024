@@ -21,13 +21,32 @@ const SignInPage = ({ setToken }) => {
       return;
     }
     try {
-      // Simulate API call to authenticate user and receive token
-      const authToken = "sampleToken"; // Replace with actual token received from API
-      setToken(authToken); // Set the token using the setToken prop
-      console.log("Sign-in successful:", formData);
-      navigate("/dashboard");
+      // Make an actual API call to the backend to authenticate the user and receive a token
+      const response = await fetch("http://localhost:3000/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: formData.identifier,
+          email: formData.identifier,
+          password: formData.password,
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        const authToken = data.token; // The API returns the token in the response
+        setToken(authToken); // Set the token using the setToken prop
+        console.log("Sign-in successful:", formData);
+        navigate("/dashboard");
+      } else {
+        setError(data.error || "Invalid credentials. Please try again.");
+      }
     } catch (err) {
-      setError("Invalid credentials. Please try again.");
+      setError("An error occurred while signing in. Please try again.");
+      console.error(err);
     }
   };
 
