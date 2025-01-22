@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "./Navbar"; // Import Navbar component
 import "./ManageAccount.css"; // Import CSS for styling
-const ManageAccount = () => {
+const AdminPage = () => {
   return (
     <div className="manage-account-page">
       {/* Navbar remains at the top */}
@@ -14,10 +14,6 @@ const ManageAccount = () => {
           <input type="text" id="username" name="username" />
         </div>
         <div className="account-details">
-          <label htmlFor="email">Email:</label>
-          <input type="email" id="email" name="email" />
-        </div>
-        <div className="account-details">
           <label htmlFor="password">Password:</label>
           <input type="password" id="password" name="password" />
         </div>
@@ -26,4 +22,4 @@ const ManageAccount = () => {
     </div>
   );
 };
-export default ManageAccount;
+export default AdminPage;

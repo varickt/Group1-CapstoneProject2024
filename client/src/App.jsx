@@ -8,6 +8,8 @@ import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import Layout from "./components/Layout";
 import CarDetails from "./components/CarDetails";
 import About from "./components/About"; // Import the About component
+import ManageAccount from "./components/AdminPage";
+import AdminPage from "./components/AdminPage";
 
 const App = () => {
   const [token, setToken] = useState(() => {
@@ -54,7 +56,7 @@ const App = () => {
         element={<CarDetails token={token} />}
       />
       <Route path="/about" element={<About />} /> {/* Add the About route */}
-      <Route path="/ManageTest" element={<ManageAccount />} />
+      <Route path="/AdminTest" element={<AdminPage />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
