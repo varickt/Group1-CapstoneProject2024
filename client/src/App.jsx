@@ -54,6 +54,7 @@ const App = () => {
         element={<CarDetails token={token} />}
       />
       <Route path="/about" element={<About />} /> {/* Add the About route */}
+      <Route path="/ManageTest" element={<ManageAccount />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
